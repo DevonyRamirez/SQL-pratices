@@ -20,3 +20,21 @@ SELECT count(*) as total, 'America' from country a INNER JOIN continent b on a.c
 SELECT count(*), b.name from city a
 inner join country b on a.countrycode=b.code
 GROUP by b."name" order by count(*) desc limit 1 ;
+
+
+-- quiero saber cuales son los idiomas que se hablan por continente
+select  distinct a."language", c."name" from countrylanguage a 
+inner join country b on a.countrycode=b.code
+inner join continent c on b.continent=c.code
+
+where a.isofficial is TRUE;
+
+-- cuantos idiomas se hablan por continente
+select count(*), continent from (
+	select  distinct a."language", c."name" as continent from countrylanguage a 
+	inner join country b on a.countrycode=b.code
+	inner join continent c on b.continent=c.code
+	where a.isofficial is TRUE
+) as totales GROUP by continent; 
+
+
